@@ -42,21 +42,22 @@
 <!-- Row with buttons and input form -->
 		<div class = 'row well' id = 'userArea'>
 <!-- Buttons will render here -->
-			<div class ='col-md-8 well' id = 'buttonsView'>	
+			<div class ='col-md-7 well content' id = 'buttonsView'>	
 			</div>
+			<div class = 'col-md-1'></div>
 <!-- User form will be here -->
-			<div class = 'col-md-4 well' id = 'formView'>
+			<div class = 'col-md-4 well content' id = 'formView'>
 				<form id = 'word-form'>
-					<label for="word-input"></label>
+					<label for="word-input">Try an animal of your own!</label>
    					 <input type="text" id="word-input"><br>
     
 				    <!-- Button triggers new movie to be added -->
-				    <input id="addWord" type="submit" value="Add a Button">
+				    <button class = "btn btn-primary" id="addWord">Add a Button</button>
 				</form>
 			</div>
 		</div>
 <!-- Giphys will show here -->
-		<div class = 'well' id = 'giphyView'>
+		<div class = 'well content' id = 'giphyView'>
 		</div>
 	</div>
 </body>

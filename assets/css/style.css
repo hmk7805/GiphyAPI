@@ -1,0 +1,22 @@
+*{
+	box-sizing: border-box;
+}
+body{
+	background-image: 
+}
+.wordBtn {
+	margin: 10px;
+}
+input, #addWord{
+	width: 100%;
+}
+input {
+	padding: 12px 20px;
+    margin: 10px 0px;
+}
+img {
+	display: inline;
+	width:200px;
+	height:200px;
+	overflow:auto;
+}

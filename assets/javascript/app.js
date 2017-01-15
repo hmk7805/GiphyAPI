@@ -3,8 +3,10 @@ $(document).ready(function(){
 	$('#addWord').click(newButton);
 	$(document).on('click', '.wordBtn', displayGifs);
 });
-//preloaded destinations
-var destArr = ['Ireland', 'Scotland','Greece', 'Great Barrier Reef', 'Paris', 'Bora Bora', 'Florence', 'Tokyo', 'Cusco', 'London', 'Rome', 'New York City', 'Maui', 'Cape Town', 'Barcelona', 'Sydney', 'Rio de Janeiro', 'Yellowstone', 'Amsterdam', 'Hong Kong', 'Cairo', 'Washington D.C.', 'Grand Canyon'];
+var srcStill = [];
+var srcGif = [];
+//preloaded buttons
+var wordArr = ['cat', 'piglet', 'sheep', 'elephant', 'giraffe', 'hawk', 'bald eagle', 'german shepherd'];
 //display function
 function displayGifs(){
 	$('#giphyView').empty();
@@ -23,33 +25,61 @@ function displayGifs(){
 		console.log(response);
 		var newGiphy = $('<div class = "wordGif">');
 		for (var i = 0; i < response.data.length; i++){	
+			console.log(response);
 			//store response in variables
 			var rating = response.data[i].rating;
 			//post to div
-			var pOne = $('<p>').text('Rated: ' + rating);
+			var spanOpen = $('<span>')
+			//spanOpen.addClass('imgandrate')	
+
+			var pRating = $('<p>').text('Rated: ' + rating);
 			console.log(rating);
-			var srcGif = response.data[i].embed_url;
+			srcGif.push(response.data[i].images.original.url);
 			console.log(srcGif);
-			var pTwo = $('<iframe src = "' + srcGif + '">');
+			srcStill.push(response.data[i].images.original_still.url);
+			console.log(srcStill)
+			var gifElement = $('<img src = "' + srcStill[i] + '">');
+			gifElement.attr('class', 'gif')
+			gifElement.attr('data-state', 'still')
+			gifElement.attr('data-index', i)
 			$('#giphyView').append(newGiphy);
-			$('.wordGif').append(pOne);
-			$('.wordGif').append(pTwo);
+			$('.wordGif').append(pRating);
+			$('.wordGif').append(gifElement);
 		};
 	});
 };
+$(document).on('click', '.gif', function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      console.log('Gif Click Received');
+      var state = $(this).attr('data-state');
+      var index = $(this).attr('data-index');
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === 'still') {
+        $(this).attr('src', srcGif[index]);
+        $(this).attr('data-state', 'animate');
+      } else {
+        $(this).attr('src', srcStill[index]);
+        $(this).attr('data-state', 'still');
+      }
+    });
 //render buttons function	
 function renderButtons(){
 	//clear buttonsView window
 	$('#buttonsView').empty();
 	//loop through destinations array
-	for (var i = 0; i < destArr.length; i++) {
+	for (var i = 0; i < wordArr.length; i++) {
 		//create button 
 		var create = $('<button>');
-		create.attr('data-word', destArr[i]);
-		create.addClass('wordBtn');
-		create.text(destArr[i]);
+		create.attr('data-word', wordArr[i]);
+		create.addClass('btn btn-primary wordBtn');
+		create.text(wordArr[i]);
 		//append to DOM
 		$('#buttonsView').append(create);
+		$('#word-input').val('');
+
 	};
 };
 
@@ -57,12 +87,14 @@ function renderButtons(){
 function newButton(){
 		//store new word
 		var word = $('#word-input').val().trim();
-		//push word to array
-		destArr.push(word);
-		//run function
-		renderButtons();
-		//Allows the user to click 'enter' for input
-		console.log(destArr)	
+		if (word !== '') {
+			//push word to array
+			wordArr.push(word);
+			//run function
+			renderButtons();
+			console.log(wordArr)
+		}
+		//return false allows the user to click 'enter' and stops the page from refreshing.
 		return false;
 }
 
