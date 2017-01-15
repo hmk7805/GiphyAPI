@@ -18,7 +18,7 @@ function displayGifs(){
 	//store word choice from click event by accessing the data-word attribute on the button(this)
 	var word = $(this).attr('data-word');
 	//api query stored in variable 
-	var queryURL = 'http://api.giphy.com/v1/gifs/search?'
+	var queryURL = 'http://api.giphy.com/v1/gifs/search'
 	//make ajax call to giphy api, data key stores the api parameters
 	$.ajax({
 		url: queryURL,
