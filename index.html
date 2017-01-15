@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Giphy at Will</title>
+	<title>Emotional Giphys</title>
 
 <!-- Allows webdesigners to control the viewport deminsions -->
   	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,34 +30,33 @@
 </head>
 <body>
 	<div class = 'container'>
-<!-- Header will always be present -->
+<!-- Header -->
 		<div class = 'jumbotron' id = 'header'>
-			<h1>Travel Giphys</h1>
-			<p>Click on any button below to view 
-				some Giphy's that relate to it. 
-				If you would like to add your own button,
-				use the input area to do so.
+			<h1>Emotional Giphys</h1>
+			<p>Click on any button below to view some Giphy's that relate to it. Click on the giphy to play it or pause it. If you would like to add your own button, use the input area to do so.
 			</p>
 		<div>
 <!-- Row with buttons and input form -->
 		<div class = 'row well' id = 'userArea'>
 <!-- Buttons will render here -->
 			<div class ='col-md-7 well content' id = 'buttonsView'>	
+			<!-- buttons have class = 'btn btn-primary wordBtn' -->
 			</div>
 			<div class = 'col-md-1'></div>
 <!-- User form will be here -->
 			<div class = 'col-md-4 well content' id = 'formView'>
 				<form id = 'word-form'>
-					<label for="word-input">Try an animal of your own!</label>
+					<label for="word-input">How are you feeling today?</label>
    					 <input type="text" id="word-input"><br>
     
 				    <!-- Button triggers new movie to be added -->
-				    <button class = "btn btn-primary" id="addWord">Add a Button</button>
+				    <button class = "btn btn-primary" id="addWord">Gif That</button>
 				</form>
 			</div>
 		</div>
 <!-- Giphys will show here -->
 		<div class = 'well content' id = 'giphyView'>
+			<!-- giphys will all be added to a new div with id ='gif[i]' there will be a <p> element and <img> element in the div-->
 		</div>
 	</div>
 </body>

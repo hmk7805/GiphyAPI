@@ -1,75 +1,70 @@
 $(document).ready(function(){
+	//inital button creation on load, renderButtons fxn on (line 63)
 	renderButtons();
+	//on click of submit button run newButton(line 78) fxn to create a new button
 	$('#addWord').click(newButton);
+	//on click of the documents element that has class .wordBtn run fxn displayGifs(line 15)
 	$(document).on('click', '.wordBtn', displayGifs);
 });
+//global variables with arrays that will hold the two img src urls for each giphy
 var srcStill = [];
 var srcGif = [];
-//preloaded buttons
-var wordArr = ['cat', 'piglet', 'sheep', 'elephant', 'giraffe', 'hawk', 'bald eagle', 'german shepherd'];
+//preloaded buttons array
+var wordArr = ['happy', 'sad', 'pissed', 'cold', 'drunk', 'sleepy', 'hangry', 'lost', 'crazy'];
 //display function
 function displayGifs(){
+	//empty the giphy area
 	$('#giphyView').empty();
-	//store word choice from click event
+	//store word choice from click event by accessing the data-word attribute on the button(this)
 	var word = $(this).attr('data-word');
-	console.log(word);
-	//api query
-	var queryURL = 'http://api.giphy.com/v1/gifs/search?q=' + word + '&limit=10&api_key=dc6zaTOxFJmzC'
-	//make ajax call to giphy api
+	//api query stored in variable 
+	var queryURL = 'http://api.giphy.com/v1/gifs/search?'
+	//make ajax call to giphy api, data key stores the api parameters
 	$.ajax({
 		url: queryURL,
-		method: 'GET'
+		method: 'GET',
+		data: {
+			api_key: 'dc6zaTOxFJmzC',
+			q: word,
+			limit: 9
+		}
 	}).done(function(response){
-		//make a div to hold response
-		console.log('response data length ' + response.data.length)
-		console.log(response);
-		var newGiphy = $('<div class = "wordGif">');
+		//on done, clear the src arrays
+		srcStill = [];
+		srcGif = [];
+		//data.length should be 9 based on my index set in the api parameters (i know that the instructions said 10 but the styling is ugly with 10 and I wanted to have them in rows of 3)
 		for (var i = 0; i < response.data.length; i++){	
-			console.log(response);
-			//store response in variables
+			//make div to store the new giphy and rating together, paired for styling
+			var newGiphyOpen = $('<div>');
+			newGiphyOpen.attr('class', 'gif')
+			newGiphyOpen.attr('id', 'gif' + i)
+			var newGiphyClose = $('</div>')
+			//store response pieces needed in variables
 			var rating = response.data[i].rating;
-			//post to div
-			var spanOpen = $('<span>')
-			//spanOpen.addClass('imgandrate')	
-
-			var pRating = $('<p>').text('Rated: ' + rating);
-			console.log(rating);
 			srcGif.push(response.data[i].images.original.url);
-			console.log(srcGif);
 			srcStill.push(response.data[i].images.original_still.url);
-			console.log(srcStill)
+			//the rating stored in <p> element 
+			var ratingElement = $('<p>');
+			ratingElement.text('Rated: ' + rating);
+			ratingElement.attr('class', 'rating')
+			//the giphy stored in an <img> element
 			var gifElement = $('<img src = "' + srcStill[i] + '">');
 			gifElement.attr('class', 'gif')
 			gifElement.attr('data-state', 'still')
 			gifElement.attr('data-index', i)
-			$('#giphyView').append(newGiphy);
-			$('.wordGif').append(pRating);
-			$('.wordGif').append(gifElement);
+			//post div to the dom, then post the <p> and <img> elements and close the div
+			$('#giphyView').append(newGiphyOpen);
+			$('#gif' + i).append(ratingElement);
+			$('#gif' + i).append(gifElement);
+			$('#giphyView').append(newGiphyClose);
 		};
 	});
 };
-$(document).on('click', '.gif', function() {
-      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
-      console.log('Gif Click Received');
-      var state = $(this).attr('data-state');
-      var index = $(this).attr('data-index');
-      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-      
-      // Then, set the image's data-state to animate
-      // Else set src to the data-still value
-      if (state === 'still') {
-        $(this).attr('src', srcGif[index]);
-        $(this).attr('data-state', 'animate');
-      } else {
-        $(this).attr('src', srcStill[index]);
-        $(this).attr('data-state', 'still');
-      }
-    });
-//render buttons function	
+//Used to make the buttons
 function renderButtons(){
 	//clear buttonsView window
 	$('#buttonsView').empty();
-	//loop through destinations array
+	//loop through word array
 	for (var i = 0; i < wordArr.length; i++) {
 		//create button 
 		var create = $('<button>');
@@ -78,26 +73,41 @@ function renderButtons(){
 		create.text(wordArr[i]);
 		//append to DOM
 		$('#buttonsView').append(create);
-		$('#word-input').val('');
-
 	};
 };
-
-//new button addtion function
+//submitting a new button to the list
 function newButton(){
-		//store new word
+		//store the new word
 		var word = $('#word-input').val().trim();
 		if (word !== '') {
 			//push word to array
 			wordArr.push(word);
-			//run function
+			//run function to make buttons
 			renderButtons();
-			console.log(wordArr)
+		}else{
+			//Don't allow a button to be created for '' or ' '
+			alert("You must enter a word to create a new button.")
 		}
+		//emptys the input box for the next word
+		$('#word-input').val('');
 		//return false allows the user to click 'enter' and stops the page from refreshing.
 		return false;
 }
-
+//this controls the start/stop of the gifs on the click event, when the document is clicked on an element with class of gif 
+$(document).on('click', '.gif', function() {
+      //Using the attr jQuery method to get the value of the data attributes on our HTML element, index is used to access the correct position in the src arrays
+      var state = $(this).attr('data-state');
+      var index = $(this).attr('data-index');
+      //If the state is 'still' on the click, use the srcGif to make animate and change the state to animate
+      if (state === 'still') {
+        $(this).attr('src', srcGif[index]);
+        $(this).attr('data-state', 'animate');
+      } else {
+      	//else on the click use the srcStill and change the state to still
+        $(this).attr('src', srcStill[index]);
+        $(this).attr('data-state', 'still');
+      }
+    });
 
 
 
