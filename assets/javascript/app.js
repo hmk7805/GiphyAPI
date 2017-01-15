@@ -25,7 +25,7 @@ function displayGifs(){
 		method: 'GET',
 		data: {
 			api_key: 'dc6zaTOxFJmzC',
-			q: word,
+			q: '"' + word + '"',
 			limit: 9
 		}
 	}).done(function(response){
