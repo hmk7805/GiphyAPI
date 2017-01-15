@@ -1,10 +1,10 @@
 $(document).ready(function(){
-	//inital button creation on load, renderButtons fxn on (line 63)
+	//inital button creation on load, renderButtons fxn on (line 64)
 	renderButtons();
-	//on click of submit button run newButton(line 78) fxn to create a new button
+	//on click of submit button run newButton(line 79) fxn to create a new button
 	$('#addWord').click(newButton);
 	//on click of the documents element that has class .wordBtn run fxn displayGifs(line 15)
-	$(document).on('click', '.wordBtn', displayGifs);
+	$(document).on('click', '.wordBtn', displayGifs);	
 });
 //global variables with arrays that will hold the two img src urls for each giphy
 var srcStill = [];
@@ -95,19 +95,22 @@ function newButton(){
 }
 //this controls the start/stop of the gifs on the click event, when the document is clicked on an element with class of gif 
 $(document).on('click', '.gif', function() {
-      //Using the attr jQuery method to get the value of the data attributes on our HTML element, index is used to access the correct position in the src arrays
-      var state = $(this).attr('data-state');
-      var index = $(this).attr('data-index');
-      //If the state is 'still' on the click, use the srcGif to make animate and change the state to animate
-      if (state === 'still') {
-        $(this).attr('src', srcGif[index]);
-        $(this).attr('data-state', 'animate');
-      } else {
-      	//else on the click use the srcStill and change the state to still
-        $(this).attr('src', srcStill[index]);
-        $(this).attr('data-state', 'still');
-      }
-    });
+  //Using the attr jQuery method to get the value of the data attributes on our HTML element, index is used to access the correct position in the src arrays
+  var state = $(this).attr('data-state');
+  var index = $(this).attr('data-index');
+  //If the state is 'still' on the click, use the srcGif to make animate and change the state to animate
+  if (state === 'still') {
+    $(this).attr('src', srcGif[index]);
+    $(this).attr('data-state', 'animate');
+  } else {
+  	//else on the click use the srcStill and change the state to still
+    $(this).attr('src', srcStill[index]);
+    $(this).attr('data-state', 'still');
+  }
+});
+
+
+
 
 
 
