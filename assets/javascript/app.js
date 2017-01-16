@@ -18,11 +18,16 @@ function displayGifs(){
 	//store word choice from click event by accessing the data-word attribute on the button(this)
 	var word = $(this).attr('data-word');
 	//api query stored in variable 
-	var queryURL = 'https://api.giphy.com/v1/gifs/search?q="' + word + '"&limit=9&api_key=dc6zaTOxFJmzC'
+	var queryURL = 'https://api.giphy.com/v1/gifs/search'
 	//make ajax call to giphy api
 	$.ajax({
 		url: queryURL,
 		method: 'GET',
+		data: {
+			api_key: ,
+			q: word,
+			limit: 9
+		}
 	}).done(function(response){
 		//on done, clear the src arrays
 		srcStill = [];
