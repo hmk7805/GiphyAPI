@@ -26,7 +26,7 @@ function displayGifs(){
 		data: {
 			api_key: 'dc6zaTOxFJmzC',
 			q: word,
-			limit:
+			limit: 9
 		}
 	}).done(function(response){
 		//on done, clear the src arrays
