@@ -24,9 +24,9 @@ function displayGifs(){
 		url: queryURL,
 		method: 'GET',
 		data: {
-			api_key: ,
+			api_key: 'dc6zaTOxFJmzC',
 			q: word,
-			limit: 9
+			limit:
 		}
 	}).done(function(response){
 		//on done, clear the src arrays
